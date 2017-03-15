@@ -8,24 +8,21 @@
 ;=====================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #222
+background = #282828
 background-alt = #444
-;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
-foreground-alt = #555
+foreground = #ebdbb2
+foreground-alt = #ebdbb2
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
 [bar/bar1]
 bottom = true
-;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
 height = 20
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 4.0
 fixed-center = false
 
 background = ${colors.background}
@@ -34,22 +31,23 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 4
-border-color = #00000000
+border-size = 3
+border-color = #1d2021
 
-padding-left = 0
-padding-right = 2
+;padding-left = 0
+;padding-right = 2
 
-module-margin-left = 1
+module-margin-left = 2
 module-margin-right = 2
 
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
+font-3 = FontAwesome:pixelsize=11;1
 
-modules-left = pkgupdates-available
-modules-center = 
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-left =
+modules-center = cpu memory filesystem diskio wifi-strength upload-download wlan-ip temperature battery
+modules-right =
 
 tray-position = right
 tray-padding = 2
@@ -66,6 +64,52 @@ tray-padding = 2
 
 ;scroll-up = i3wm-wsnext
 ;scroll-down = i3wm-wsprev
+
+[module/temperature]
+type = internal/temperature
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+
+; Thermal zone to use
+; To list all the zone types, run 
+; $ for i in /sys/class/thermal/thermal_zone*; do echo "$i: $(<$i/type)"; done
+; Default: 0
+thermal-zone = 0
+
+; Threshold temperature to display warning label
+; Default: 80
+warn-temperature = 80
+
+; Available tags:
+;   <label> (default)
+;   <ramp>
+format = <ramp> <label>
+
+; Available tags:
+;   <label-warn> (default)
+;   <ramp>
+format-warn = <ramp> <label-warn>
+format-underline = #458588
+
+; Available tokens:
+;   %temperature% (default)
+label = %temperature%
+
+; Available tokens:
+;   %temperature% (default)
+label-warn = %temperature%
+label-warn-foreground = #f00
+label-warn-underline = #f00
+
+; Requires the <ramp> tag
+; The icon selection will range from 0 to `warn-temperature`
+; with the current temperature as index.
+ramp-0 = A
+ramp-1 = B
+ramp-2 = C
+ramp-foreground = #55
 
 [module/xwindow]
 type = internal/xwindow
@@ -93,7 +137,8 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted =   %used% of %total%
+label-mounted-underline = #b16286
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -126,29 +171,31 @@ wrapping-scroll = false
 ;pin-workspaces = true
 
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+label-mode-foreground = #ebdbb2
+label-mode-background = #282828
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-background = #458588
+label-focused-underline = #ebdbb2
+label-focused-padding = 4
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-background = #282828
+label-unfocused-padding = 4
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible-padding = 4
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent-background = #cc241d
+label-urgent-padding = 4
+label-urgent-underline = #ebdbb2
 
 [module/mpd]
 type = internal/mpd
@@ -163,76 +210,76 @@ icon-next = 
 label-song-maxlen = 25
 label-song-ellipsis = true
 
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = BL
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
-
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
-label = %percentage%%
 
-[module/pkgupdates-available]
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #fb4934
+;label = %percentage%%
+
+format = <label> <ramp-coreload>
+
+label =   %percentage%%
+
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+
+[module/username]
 type = custom/script
-
+exec = echo $USER
+format-underline = #cc241d
+format-prefix= " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
-
-; Available tokens:
-;   %counter%
-; Command to be executed (using "/usr/bin/env sh -c [command]")
-exec = ls -al $HOME | wc -l
-
-; Conditional command that, if defined, needs to exit successfully
-; before the main exec command is invoked.
-; Default: ""
-; exec-if = pgrep -x myservice
-
-; Will the script output continous content?
-; Default: false
+; Checking this
 tail = true
-
-; Seconds to sleep between updates
-; Default: 2 (0 if `tail = true`)
 interval = 90
 
-[module/memory]
-type = internal/memory
-interval = 2
-format-prefix = " "
+[module/diskio]
+type = custom/script
+exec = ~/.config/polybar/scripts/disk-io/disk-io
+format-prefix= "  "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
-label = %percentage_used%%
+format-underline = #b16286
 
-[module/wlan]
+; Checking this
+tail = true
+;interval = 90
+
+[module/updates]
+type = custom/script
+exec = echo $(pacman -Qu | wc -l)
+format-underline = #fabd2f
+format-prefix= " "
+format-prefix-foreground = ${colors.foreground-alt}
+; Checking this
+tail = true
+interval = 90
+
+[module/wifi-strength]
+type = custom/script
+exec = ~/.config/polybar/scripts/wlan-dbm/wlan-dbm
+format-underline = #98971a
+format-prefix= " "
+format-prefix-foreground = ${colors.foreground-alt}
+; Checking this
+tail = true
+interval = 6
+
+[module/upload-download]
 type = internal/network
-interface = net1
-interval = 3.0
+interface = wlp8s0
+interval = 1.0
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
-label-connected = %essid%
+format-connected = <label-connected>
+format-connected-underline = #98971a
+label-connected =  %downspeed%  %upspeed%   
 
 format-disconnected =
 ;format-disconnected = <label-disconnected>
@@ -240,12 +287,28 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #fb4934
+label = %gb_used%/%gb_total%
+
+[module/wlan-ip]
+type = internal/network
+interface = wlp8s0
+interval = 100
+
+format-connected = <label-connected>
+format-connected-underline = #98971a
+label-connected =  %local_ip%  
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -267,17 +330,33 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date =
+date = " %d.%m.%Y."
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+format-underline = #d65d0e
 
-label = %date% %time%
+label = %date% 
+
+[module/time]
+type = internal/date
+interval = 5
+
+date = " %d.%m.%Y."
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = " " 
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #d65d0e
+
+label = %time% 
 
 [module/volume]
 type = internal/volume
@@ -286,7 +365,7 @@ format-volume = <label-volume> <bar-volume>
 label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
+format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
@@ -309,56 +388,78 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
 type = internal/battery
-battery = BAT0
-adapter = AC
-full-at = 98
+battery = BAT1
+adapter = ACAD
+full-at = 100
 
+time-format = %H:%M
+
+; Available tags:
+;   <label-charging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+;   <animation-charging>
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+format-charging-underline = #458588
 
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+; Available tags:
+;   <label-discharging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+format-discharging = <ramp-capacity> <label-discharging> 
+format-discharging-underline = #458588
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+; Available tags:
+;   <label-full> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+format-full = <ramp-capacity> <label-full>
+format-full-underline = #458588
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
+; Available tokens:
+;   %percentage% (default)
+;   %time%
+label-charging = Charging %percentage%% %time%
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
+; Available tokens:
+;   %percentage% (default)
+;   %time%
+label-discharging = Discharging %percentage%% %time%
+
+; Available tokens:
+;   %percentage% (default)
+label-full = Fully charged
+
+; Only applies if <ramp-capacity> is used
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = #fb4934
+ramp-capacity-1 = 
+ramp-capacity-1-foreground = #fb4934
+ramp-capacity-2 = 
+ramp-capacity-2-foreground = #fabd2f
+ramp-capacity-3 = 
+ramp-capacity-3-foreground = #fabd2f
+ramp-capacity-4 = 
+ramp-capacity-4-foreground = #b8bb26
+
+; Only applies if <bar-capacity> is used
+bar-capacity-width = 10
+
+; Only applies if <animation-charging> is used
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+; Framerate in milliseconds
 animation-charging-framerate = 750
-
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label = %temperature%
-label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
 type = custom/menu
 
 format-spacing = 1
 
-label-open = 
+label-open = "power"
 label-open-foreground = ${colors.secondary}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
@@ -392,15 +493,14 @@ margin-top = 5
 margin-bottom = 5
 
 ; vim:ft=dosini
-;
-;
+
+; The top bar
 [bar/bar2]
-;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
 height = 20
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 4.0
 fixed-center = false
 
 background = ${colors.background}
@@ -409,35 +509,32 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 4
-border-color = #00000000
+border-size = 3
+border-color = #1d2021
 
-padding-left = 0
-padding-right = 2
+;padding-left = 0
+;padding-right = 2
 
-module-margin-left = 1
+module-margin-left = 2
 module-margin-right = 2
 
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
+font-3 = FontAwesome:pixelsize=11;1
 
-modules-left = bspwm i3
+modules-left = i3 xwindow
 modules-center = 
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu 
+modules-right = x volume xkeyboard date time updates username 
 
 tray-position = right
 tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 
-;wm-restack = bspwm
-;wm-restack = i3
+wm-restack = i3
 
 ;override-redirect = true
 
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
