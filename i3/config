@@ -34,7 +34,7 @@ bindsym $mod+Return exec gnome-terminal --hide-menubar
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id dmenu_recency
+bindsym $mod+d exec --no-startup-id dmenu_recency -h 30 -w 500 -x 580 -y 390
 
 # rofi
 bindsym $mod+o exec --no-startup-id rofi -show run
@@ -42,9 +42,6 @@ bindsym $mod+p exec --no-startup-id rofi -show window
 
 # copyq
 bindsym $mod+q exec --no-startup-id copyq toggle
-
-# launch categorized menu
-bindsym $mod+z exec --no-startup-id morc_menu
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
@@ -191,6 +188,8 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 # assign [class="Thunderbird"] $ws1
 assign [class="Emacs"] $ws5
 assign [class="Chromium"] $ws3
+assign [class="mpv"] $ws7
+assign [class="Pcmanfm"] $ws8
 # assign [class="Pcmanfm"] $ws3
 # assign [class="Skype"] $ws5
 
@@ -285,7 +284,6 @@ exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
 # exec --no-startup-id blueman
 # exec_always --no-startup-id sbxkb
 # exec --no-startup-id start_conky_maia
@@ -295,29 +293,31 @@ exec --no-startup-id copyq
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id fix_xcursor
 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-bar {
-    status_command i3blocks
-    position bottom
+# bar {
+#     status_command i3blocks
+#     position bottom
 
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
+# ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+# #	tray_output primary
+# #	tray_output eDP1
 
-	bindsym button4 nop
-	bindsym button5 nop
-	font xft:Noto Sans 10.5
-	strip_workspace_numbers yes
-  colors {
-    separator #928374
-    background #282828
-    statusline #ebdbb2
-    focused_workspace #689d6a #689d6a #282828
-    active_workspace #1d2021 #1d2021 #928374
-    inactive_workspace #32302f #32302f #928374
-    urgent_workspace #cc241d #cc241d #ebdbb2
-  }
-}
+# 	bindsym button4 nop
+# 	bindsym button5 nop
+# 	font xft:Noto Sans 10.5
+# 	strip_workspace_numbers yes
+#   colors {
+#     separator #928374
+#     background #282828
+#     statusline #ebdbb2
+#     focused_workspace #689d6a #689d6a #282828
+#     active_workspace #1d2021 #1d2021 #928374
+#     inactive_workspace #32302f #32302f #928374
+#     urgent_workspace #cc241d #cc241d #ebdbb2
+#   }
+# }
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
