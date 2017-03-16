@@ -1,12 +1,5 @@
-;=====================================================
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
-;
-;   The README contains alot of information
-;
-;=====================================================
-
+;Colors section
+;--------------
 [colors]
 background = #282828
 background-alt = #444
@@ -19,7 +12,7 @@ alert = #bd2c40
 [bar/bar1]
 bottom = true
 width = 100%
-height = 20
+height = 18
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 4.0
@@ -46,13 +39,13 @@ font-2 = siji:pixelsize=10;1
 font-3 = FontAwesome:pixelsize=11;1
 
 modules-left =
-modules-center = cpu memory filesystem diskio wifi-strength upload-download wlan-ip temperature battery
+modules-center = cpu memory filesystem diskio wifi-strength upload-download wlan-ip temperature battery trash updates
 modules-right =
 
-tray-position = right
+tray-position = 
 tray-padding = 2
 ;tray-transparent = true
-;tray-background = #0063ff
+tray-background = #0063ff
 
 ;wm-restack = bspwm
 ;wm-restack = i3
@@ -85,21 +78,21 @@ warn-temperature = 80
 ; Available tags:
 ;   <label> (default)
 ;   <ramp>
-format = <ramp> <label>
+format = <label>
 
 ; Available tags:
 ;   <label-warn> (default)
 ;   <ramp>
-format-warn = <ramp> <label-warn>
+format-warn = <label-warn>
 format-underline = #458588
 
 ; Available tokens:
 ;   %temperature% (default)
-label = %temperature%
+label =  %temperature%
 
 ; Available tokens:
 ;   %temperature% (default)
-label-warn = %temperature%
+label-warn =  %temperature%
 label-warn-foreground = #f00
 label-warn-underline = #f00
 
@@ -113,23 +106,25 @@ ramp-foreground = #55
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:30:...%
+format-foreground = #fe8019
+label = %title%
+labal-maxlen = 40
 
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
 
-format-prefix = " "
+format-prefix = "  "
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+format-prefix-underline = #458588
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+label-layout-underline = #458588
 
 label-indicator-padding = 2
 label-indicator-margin = 1
-label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+label-indicator-background = #458588
+label-indicator-underline = #458588
 
 [module/filesystem]
 type = internal/fs
@@ -167,6 +162,8 @@ format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
 
+ws-icon-default = 
+
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
@@ -175,9 +172,9 @@ label-mode-foreground = #ebdbb2
 label-mode-background = #282828
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = #458588
-label-focused-underline = #ebdbb2
+label-focused =  %index% 
+label-focused-background = #3c3836
+label-focused-underline = #fe8019
 label-focused-padding = 4
 
 ; unfocused = Inactive workspace on any monitor
@@ -240,10 +237,25 @@ format-prefix-foreground = ${colors.foreground-alt}
 ; Checking this
 tail = true
 interval = 90
+; --------------------
+; TRASH MODULE
+; -------------------
+[module/trash]
+type = custom/script
+exec = ~/.config/polybar/scripts/trash.sh
+
+format-underline = #fabd2f
+format-prefix= "  "
+format-prefix-foreground = ${colors.foreground-alt}
+
+click-left = "pcmanfm ~/.local/share/Trash/files"
+
+tail = true
+interval = 20
 
 [module/diskio]
 type = custom/script
-exec = ~/.config/polybar/scripts/disk-io/disk-io
+exec = ~/.config/polybar/scripts/disk-io
 format-prefix= "  "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #b16286
@@ -254,7 +266,7 @@ tail = true
 
 [module/updates]
 type = custom/script
-exec = echo $(pacman -Qu | wc -l)
+exec = ~/.config/polybar/scripts/packages.sh
 format-underline = #fabd2f
 format-prefix= " "
 format-prefix-foreground = ${colors.foreground-alt}
@@ -264,7 +276,7 @@ interval = 90
 
 [module/wifi-strength]
 type = custom/script
-exec = ~/.config/polybar/scripts/wlan-dbm/wlan-dbm
+exec = ~/.config/polybar/scripts/wlan-dbm
 format-underline = #98971a
 format-prefix= " "
 format-prefix-foreground = ${colors.foreground-alt}
@@ -523,16 +535,15 @@ font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 font-3 = FontAwesome:pixelsize=11;1
 
-modules-left = i3 xwindow
-modules-center = 
-modules-right = x volume xkeyboard date time updates username 
+modules-left = i3 
+modules-center =  xwindow
+modules-right = xkeyboard date time username 
 
 tray-position = right
-tray-padding = 2
-;tray-transparent = true
+tray-padding = 3
 ;tray-background = #0063ff
 
-wm-restack = i3
+;wm-restack = i3
 
 ;override-redirect = true
 
