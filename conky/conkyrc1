@@ -1,0 +1,70 @@
+conky.config = {
+	alignment = 'top_right',
+	background = true,
+	color1 = 'ebdbb2',
+	color2 = '83a598',
+	color3 = 'fb4934',
+	color4 = 'fabd2f',
+	cpu_avg_samples = 2,
+	default_color = '80FFF9',
+	double_buffer = true,
+	font = 'Bitstream Vera Sans:size=9',
+	draw_shades = false,
+	gap_x = 950,
+	gap_y = 20,
+	minimum_width = 350,
+	no_buffers = true,
+	own_window = true,
+	own_window_type = 'override',
+	own_window_transparent = true,
+	update_interval = 1.0,
+	use_xft = true,
+}
+conky.text = [[
+\
+${voffset}${alignc 77}${execi 300}
+\
+${font Droid Sans Mono :size=40}${alignc}${color3}${time %H:%M}${font}${color}
+${font Droid Sans Mono :size=18}${alignc}${color1}${execi 300 date +"%-d. %B, %A "}${font}${color}
+\
+${color4}${hr}${color}
+\
+${color2}${voffset 5}${font Droid Sans :size=10}${alignc}${nodename}${color} ${font}
+${color4}${hr}${color}
+${color2}${voffset 5}Uptime: ${color1} ${uptime}
+${color2}${voffset 5}IP: ${color1}${addr wlp8s0}
+${color2}${voffset 5}Kernel:${color1} ${kernel}
+${color2}${voffset 5}Processes:${color1} ${processes} ${color2} Running:${color1} ${running_processes}
+\
+${color4}${hr}${color}
+${voffset 10}${color2}Wireless ${color1} ${alignr} "${wireless_essid}" - ${execi 20 ~/.config/conky/scripts/wifi.sh}%
+${execibar 10 ~/.config/conky/scripts/wifi.sh}
+\
+${voffset 10}${color2}Down ${color1} ${downspeedf wlp8s0} KiB ${alignr}${color2}Up ${color1} ${upspeedf wlp8s0} KiB
+${downspeedgraph wlp8s0 20,100} ${alignr}${upspeedgraph wlp8s0 20,100}
+\
+${voffset 10}${color2}Battery ${color1}${alignr}${battery BAT1}
+${battery_bar BAT1}
+${voffset 10}${color2}HDD ${color1}${alignr}${fs_used} / ${fs_size}
+${fs_bar}
+\
+${voffset 10}${color2}CPU ${color1} ${alignr}${cpu cpu0}%
+${cpubar cpu0 5,}
+${top name 1} $alignr ${top cpu 1}%
+${top name 2} $alignr ${top cpu 2}%
+${top name 3} $alignr ${top cpu 3}%
+${top name 4} $alignr ${top cpu 4}%
+${top name 5} $alignr ${top cpu 5}%
+\
+${voffset 10}${color2}RAM ${color1}${alignr}${mem} / ${memmax}
+${membar 5,}
+${top_mem name 1} $alignr ${top_mem mem_res 1}
+${top_mem name 2} $alignr ${top_mem mem_res 2}
+${top_mem name 3} $alignr ${top_mem mem_res 3}
+${top_mem name 4} $alignr ${top_mem mem_res 4}
+${top_mem name 5} $alignr ${top_mem mem_res 5}
+\
+${voffset 10}${color2}Swap ${color1}${alignr}${swap} / ${swapfree}
+${swapbar}
+\
+]]
