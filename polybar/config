@@ -108,7 +108,7 @@ ramp-foreground = #55
 type = internal/xwindow
 format-foreground = #fe8019
 label = %title%
-labal-maxlen = 40
+label-maxlen = 44
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -540,7 +540,7 @@ modules-center =  xwindow
 modules-right = xkeyboard date time username 
 
 tray-position = right
-tray-padding = 3
+tray-padding = 2
 ;tray-background = #0063ff
 
 ;wm-restack = i3
