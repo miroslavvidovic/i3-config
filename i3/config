@@ -134,8 +134,8 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 #navigate workspaces next / previous
-bindsym $mod+Ctrl+Right workspace next
-bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+Ctrl+l workspace next
+bindsym $mod+Ctrl+h workspace prev
 
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
@@ -282,7 +282,14 @@ exec --no-startup-id pamac-tray
 # exec --no-startup-id start_conky_green
 #
 exec --no-startup-id ~/.config/conky/launch-conky.sh
-exec --no-startup-id copyq
+
+# Clipboard manager
+# ------------------
+# copyq more advanced option 
+# exec --no-startup-id copyq
+# clipit a lightweight option
+exec --no-startup-id clipit
+
 exec --no-startup-id xautolock -time 10 -locker blurlock
 
 exec_always --no-startup-id fix_xcursor
@@ -306,7 +313,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #     separator #928374
 #     background #282828
 #     statusline #ebdbb2
-#     focused_workspace #689d6a #689d6a #282828
+#     focused_workspace #fe8019 #fe8019 #282828
 #     active_workspace #1d2021 #1d2021 #928374
 #     inactive_workspace #32302f #32302f #928374
 #     urgent_workspace #cc241d #cc241d #ebdbb2
@@ -379,7 +386,7 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-client.focused #689d6a #689d6a #282828 #282828
+client.focused #fe8019 #fe8019 #282828 #282828
 client.focused_inactive #1d2021 #1d2021 #928374 #282828
 client.unfocused #32302f #32302f #928374 #282828
 client.urgent #cc241d #cc241d #ebdbb2 #282828
