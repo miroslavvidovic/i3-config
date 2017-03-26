@@ -74,7 +74,7 @@
     # The transparency of the window.  Range: [0; 100].
     # This option will only work if a compositing windowmanager is
     # present (e.g. xcompmgr, compiz, etc.).
-    transparency = 15
+    transparency = 10
     
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
@@ -151,8 +151,8 @@
     icon_folders = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/
 
 [frame]
-    width = 1
-    color = "#16A085"
+    width = 3
+    color = "#ebdbb2"
 
 [shortcuts]
 
@@ -179,18 +179,18 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#2B2C2B"
-    foreground = "#888888"
+    background = "#fabd2f"
+    foreground = "#1d2021"
     timeout = 10
 
 [urgency_normal]
-    background = "#2B2C2B"
-    foreground = "#F9FAF9"
+    background = "#fabd2f"
+    foreground = "#1d2021"
     timeout = 10
 
 [urgency_critical]
-    background = "#D62929"
-    foreground = "#F9FAF9"
+    background = "#cc241d"
+    foreground = "#1d2021"
     timeout = 0
 
 
@@ -270,31 +270,30 @@
 #    foreground = "#FFFFFF"
 #
 [irc]
-        appname = weechat
-        timeout = 0
-        background = "#0033bb"
-        foreground = "#dddddd"
-#
+     appname = weechat
+     timeout = 0
+     background = "#0033bb"
+     foreground = "#dddddd"
+
 [weechat hl]
      appname = weechat
      category = weechat.HL
      background = "#FF5C47"
      foreground = "#FFFFFF"
-#
+
 [weechat pn]
      appname = weechat
      category = weechat.PM
      background = "#D53B84"
      foreground = "#FFFFFF"
-#
-#[CMUS]
-#    appname = CMUS
-#    category = cmus
-#    background = "#6C4AB7"
-#    foreground = "#FFE756"
-#
-#
-#     background = "#30AB70"
-#     foreground = "#F67245"
-#
+
+[CMUS]
+    appname = CMUS
+    category = cmus
+    background = "#6C4AB7"
+    foreground = "#FFE756"
+
+     background = "#30AB70"
+     foreground = "#F67245"
+
 # vim: ft=cfg
