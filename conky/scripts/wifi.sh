@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# i3blocks blocklet script to display wifi signal in dBm
+# display wifi signal strength in conky on manjaro 
 
 IFACE="wlp8s0"
 USE_PERCENT=1
@@ -8,8 +8,8 @@ USE_PERCENT=1
 IW=$(which iwlist || echo "/sbin/iwlist")
 
 if [[ ! -x $IW ]]; then
-	echo "No iw binary was found on the system." 1>2
-	exit 1
+  echo "No iw binary was found on the system." 1>2
+  exit 1
 fi
 
 dbm="$($IW $IFACE scan | grep Quality | cut -d'=' -f2 | cut -d' ' -f1 | cut -d'/' -f1)"
