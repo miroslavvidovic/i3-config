@@ -1,14 +1,7 @@
-# i3-config
+## i3-config
 i3wm settings
 
-### Bar
-- i3blocks
-- polybar
+### Setup instructions
 
-### Applications
-- gnome-terminal - default terminal emulator
-- sakura - simple lightweight terminal emulator
-- rofi - application launcher
-- thunar - file manager
-- ranger - file manager for the console
-- google chrome - browser
+#### Dunst
+Fairly simple theme for dunst https://github.com/dunst-project/dunst notifications in gruvbox colors.
